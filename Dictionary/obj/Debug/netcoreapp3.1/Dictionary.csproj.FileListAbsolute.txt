@@ -82,3 +82,4 @@ C:\Users\carla\source\Dictionary\Dictionary\bin\Debug\netcoreapp3.1\DictionaryTe
 C:\Users\carla\source\Dictionary\Dictionary\obj\Debug\netcoreapp3.1\Dictionary.csprojAssemblyReference.cache
 C:\Users\carla\source\Dictionary\Dictionary\obj\Debug\netcoreapp3.1\Dictionary.AssemblyInfoInputs.cache
 C:\Users\carla\source\Dictionary\Dictionary\obj\Debug\netcoreapp3.1\Dictionary.AssemblyInfo.cs
+C:\Users\carla\source\Dictionary\Dictionary\obj\Debug\netcoreapp3.1\Dictionary.csproj.CoreCompileInputs.cache

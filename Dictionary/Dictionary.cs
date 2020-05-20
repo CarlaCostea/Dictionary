@@ -2,9 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq.Expressions;
-using System.Net.Http.Headers;
-using System.Text;
 
 namespace Dictionary
 {
@@ -54,7 +51,7 @@ namespace Dictionary
 
         public int Count { get; private set; }
 
-        public bool IsReadOnly { get; private set; }
+        public bool IsReadOnly { get; }
 
         public TValue this[TKey key]
         {
@@ -76,12 +73,23 @@ namespace Dictionary
 
         public void Add(TKey key, TValue value)
         {
-            throw new NotImplementedException();
+            int elementIndex = GetBucketPosition(key);
+            int bucketIndex = GetFirstEmptyPosition();
+            elements[elementIndex].Key = key;
+            elements[elementIndex].Value = value;
+
+            if (buckets[bucketIndex] != -1)
+            {
+                elements[elementIndex].Next = buckets[bucketIndex];
+            }
+
+            buckets[bucketIndex] = elementIndex;
+            Count++;
         }
 
         public void Add(KeyValuePair<TKey, TValue> item)
         {
-            throw new NotImplementedException();
+            Add(item.Key, item.Value);
         }
 
         public void Clear()
@@ -164,6 +172,18 @@ namespace Dictionary
         private int GetBucketPosition(TKey key)
         {
             return Math.Abs(key.GetHashCode()) % buckets.Length;
+        }
+
+        private int GetFirstEmptyPosition()
+        {
+            if (freeIndex != -1)
+            {
+                var aux = freeIndex;
+                freeIndex = elements[freeIndex].Next;
+                return aux;
+            }
+
+            return Count;
         }
     }
 }
