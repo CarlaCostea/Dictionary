@@ -8,6 +8,7 @@
     ".NETCoreApp,Version=v3.1": {
       "DictionaryTests/1.0.0": {
         "dependencies": {
+          "Dictionary": "1.0.0",
           "Microsoft.CodeAnalysis.FxCopAnalyzers": "3.0.0",
           "Microsoft.NET.Test.Sdk": "16.5.0",
           "Roslynator.Analyzers": "2.3.0",
@@ -704,6 +705,11 @@
         "dependencies": {
           "Microsoft.NET.Test.Sdk": "16.5.0"
         }
+      },
+      "Dictionary/1.0.0": {
+        "runtime": {
+          "Dictionary.dll": {}
+        }
       }
     }
   },
@@ -1111,6 +1117,11 @@
       "sha512": "sha512-3eq5cGXbEJkqW9nwLuXwtxy9B5gMA8i7HW4rN63AhAvy5UvEcQbZnve23wx/oPrkyg/4CbfNhxkBezS0b1oUdQ==",
       "path": "xunit.runner.visualstudio/2.4.0",
       "hashPath": "xunit.runner.visualstudio.2.4.0.nupkg.sha512"
+    },
+    "Dictionary/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
     }
   }
 }

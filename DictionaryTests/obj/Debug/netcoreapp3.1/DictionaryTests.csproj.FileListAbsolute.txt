@@ -94,3 +94,6 @@ C:\Users\carla\source\Dictionary\DictionaryTests\bin\Debug\netcoreapp3.1\Diction
 C:\Users\carla\source\Dictionary\DictionaryTests\obj\Debug\netcoreapp3.1\DictionaryTests.csproj.CoreCompileInputs.cache
 C:\Users\carla\source\Dictionary\DictionaryTests\obj\Debug\netcoreapp3.1\DictionaryTests.dll
 C:\Users\carla\source\Dictionary\DictionaryTests\obj\Debug\netcoreapp3.1\DictionaryTests.pdb
+C:\Users\carla\source\Dictionary\DictionaryTests\bin\Debug\netcoreapp3.1\Dictionary.exe
+C:\Users\carla\source\Dictionary\DictionaryTests\bin\Debug\netcoreapp3.1\Dictionary.dll
+C:\Users\carla\source\Dictionary\DictionaryTests\bin\Debug\netcoreapp3.1\Dictionary.pdb

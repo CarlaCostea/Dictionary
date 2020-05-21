@@ -24,8 +24,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\DictionaryTests\DictionaryTests.csproj" />
-  </ItemGroup>
-
 </Project>

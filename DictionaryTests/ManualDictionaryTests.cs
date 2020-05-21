@@ -15,7 +15,6 @@ namespace DictionaryTests
             dictionary.Add(1, "a");
             dictionary.Add(2, "b");
             dictionary.Add(10, "c");
-            Assert.Equal(manu);
         }
     }
 }
