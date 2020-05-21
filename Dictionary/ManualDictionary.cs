@@ -5,7 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Dictionary
 {
-    public class Dictionary<TKey, TValue> : IDictionary<TKey, TValue>
+    public class ManualDictionary<TKey, TValue> : IDictionary<TKey, TValue>
     {
         const int BucketLength = 5;
         const int ElementLength = 5;
@@ -13,7 +13,7 @@ namespace Dictionary
         private readonly Element<TKey, TValue>[] elements;
         private int freeIndex;
 
-        public Dictionary()
+        public ManualDictionary()
         {
             buckets = new int[BucketLength];
             freeIndex = -1;
