@@ -19,8 +19,15 @@ namespace DictionaryTests
             var enumerator = dictionary.GetEnumerator();
 
             Assert.True(enumerator.MoveNext());
+            Assert.Equal(10, enumerator.Current.Key);
+            Assert.Equal("c", enumerator.Current.Value);
+            Assert.True(enumerator.MoveNext());
             Assert.Equal(1, enumerator.Current.Key);
             Assert.Equal("a", enumerator.Current.Value);
+            Assert.True(enumerator.MoveNext());
+            Assert.Equal(2, enumerator.Current.Key);
+            Assert.Equal("b", enumerator.Current.Value);
+            Assert.False(enumerator.MoveNext());
         }
     }
 }

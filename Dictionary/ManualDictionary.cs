@@ -75,8 +75,7 @@ namespace Dictionary
         {
             int elementIndex = GetFreeIndex();
             int bucketIndex = GetHash(key);
-            elements[elementIndex].Key = key;
-            elements[elementIndex].Value = value;
+            elements[elementIndex] = new Element<TKey, TValue>(key, value, -1);
 
             if (buckets[bucketIndex] != -1)
             {
