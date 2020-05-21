@@ -8,9 +8,9 @@ namespace Dictionary
     {
         public Element(TKey key, TValue value, int next = -1)
         {
-            Key = key;
-            Value = value;
-            Next = next;
+            this.Key = key;
+            this.Value = value;
+            this.Next = next;
         }
 
         public TKey Key { get; set; }

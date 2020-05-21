@@ -73,8 +73,8 @@ namespace Dictionary
 
         public void Add(TKey key, TValue value)
         {
-            int elementIndex = GetBucketPosition(key);
-            int bucketIndex = GetFirstEmptyPosition();
+            int elementIndex = GetFreeIndex();
+            int bucketIndex = GetHash(key);
             elements[elementIndex].Key = key;
             elements[elementIndex].Value = value;
 
@@ -94,17 +94,18 @@ namespace Dictionary
 
         public void Clear()
         {
-            throw new NotImplementedException();
+            Array.Fill(buckets, -1);
+            Count = 0;
         }
 
         public bool Contains(KeyValuePair<TKey, TValue> item)
         {
-            throw new NotImplementedException();
+            return FindElement(item.Key, item.Value) != -1;
         }
 
         public bool ContainsKey(TKey key)
         {
-            throw new NotImplementedException();
+            return GetElementPosition(key) != -1;
         }
 
         public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
@@ -114,7 +115,13 @@ namespace Dictionary
 
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < BucketLength; i++)
+            {
+                for (int j = buckets[i]; j != -1; j = elements[j].Next)
+                {
+                    yield return GetKeyValuePair(elements[j]);
+                }
+            }
         }
 
         public bool Remove(TKey key)
@@ -134,7 +141,12 @@ namespace Dictionary
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            throw new NotImplementedException();
+            return GetEnumerator();
+        }
+
+        private KeyValuePair<TKey, TValue> GetKeyValuePair(Element<TKey, TValue> element)
+        {
+            return KeyValuePair.Create(element.Key, element.Value);
         }
 
         private int GetElementPosition(TKey key)
@@ -145,7 +157,7 @@ namespace Dictionary
         private int GetElementPosition(TKey key, out int previousIndex)
         {
             previousIndex = -1;
-            for (int i = buckets[GetBucketPosition(key)]; i != -1; i = elements[i].Next)
+            for (int i = buckets[GetHash(key)]; i != -1; i = elements[i].Next)
             {
                 if (elements[i].Key.Equals(key))
                 {
@@ -169,12 +181,7 @@ namespace Dictionary
             return -1;
         }
 
-        private int GetBucketPosition(TKey key)
-        {
-            return Math.Abs(key.GetHashCode()) % buckets.Length;
-        }
-
-        private int GetFirstEmptyPosition()
+        private int GetFreeIndex()
         {
             if (freeIndex != -1)
             {
@@ -184,6 +191,11 @@ namespace Dictionary
             }
 
             return Count;
+        }
+
+        private int GetHash(TKey key)
+        {
+            return Math.Abs(key.GetHashCode()) % buckets.Length;
         }
     }
 }
