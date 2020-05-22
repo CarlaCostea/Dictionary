@@ -26,7 +26,7 @@ namespace Dictionary
             get
             {
                 var keys = new List<TKey>();
-                foreach (var element in elements)
+                foreach (var element in this)
                 {
                     keys.Add(element.Key);
                 }
@@ -40,7 +40,7 @@ namespace Dictionary
             get
             {
                 var values = new List<TValue>();
-                foreach (var element in elements)
+                foreach (var element in this)
                 {
                     values.Add(element.Value);
                 }
@@ -73,6 +73,21 @@ namespace Dictionary
 
         public void Add(TKey key, TValue value)
         {
+            if (IsReadOnly)
+            {
+                throw new NotSupportedException("Dictionary is readonly");
+            }
+
+            if (ContainsKey(key))
+            {
+                throw new ArgumentException("Key {key} is already taken");
+            }
+
+            if (key == null)
+            {
+                throw new ArgumentNullException(nameof(key), "Key is null");
+            }
+
             int elementIndex = GetFreeIndex();
             int bucketIndex = GetHash(key);
             elements[elementIndex] = new Element<TKey, TValue>(key, value, -1);
