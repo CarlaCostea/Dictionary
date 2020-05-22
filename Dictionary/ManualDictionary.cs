@@ -57,6 +57,16 @@ namespace Dictionary
         {
            get
             {
+                if (GetElementPosition(key) == -1)
+                {
+                    throw new KeyNotFoundException("Key {key} is not in Dictionary");
+                }
+
+                if (key == null)
+                {
+                    throw new ArgumentNullException(nameof(key), "Key is null");
+                }
+
                 return elements[GetElementPosition(key)].Value;
             }
 
@@ -165,20 +175,12 @@ namespace Dictionary
 
         private int GetElementPosition(TKey key)
         {
-            return GetElementPosition(key, out int previousIndex);
-        }
-
-        private int GetElementPosition(TKey key, out int previousIndex)
-        {
-            previousIndex = -1;
             for (int i = buckets[GetHash(key)]; i != -1; i = elements[i].Next)
             {
                 if (elements[i].Key.Equals(key))
                 {
                     return i;
                 }
-
-                previousIndex = i;
             }
 
             return -1;

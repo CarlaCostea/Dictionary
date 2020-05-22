@@ -113,5 +113,51 @@ namespace DictionaryTests
 
             Assert.Equal(Array.Empty<string>(), dictionary.Values);
         }
+
+        [Fact]
+        public void TestGetValueFromIndex()
+        {
+            var dictionary = new ManualDictionary<int, string>
+            {
+                { 3, "correctAnswer" },
+            };
+
+            Assert.Equal("correctAnswer", dictionary[3]);
+        }
+
+        [Fact]
+        public void GetValueFromIndexShouldThrowAnErrorIfKeyIsNull()
+        {
+            var dictionary = new ManualDictionary<string, string>
+            {
+                { "yes", "correctAnswer" },
+            };
+
+            Assert.Throws<ArgumentNullException>(() => dictionary[null]);
+        }
+
+        [Fact]
+        public void GetValueFromIndexShouldThrowAnErrorIfKeyIsNotFound()
+        {
+            var dictionary = new ManualDictionary<int, string>
+            {
+                { 3, "correctAnswer" },
+            };
+
+            Assert.Throws<KeyNotFoundException>(() => dictionary[2]);
+        }
+
+        [Fact]
+        public void TestSetValueAtIndex()
+        {
+            var dictionary = new ManualDictionary<int, string>
+            {
+                { 3, "correctAnswer" },
+            };
+
+            dictionary[3] = "wrongAnswer";
+            Assert.False(dictionary[3] == "correctAnswer");
+            Assert.Equal("wrongAnswer", dictionary[3]);
+        }
     }
 }
