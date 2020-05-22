@@ -159,5 +159,53 @@ namespace DictionaryTests
             Assert.False(dictionary[3] == "correctAnswer");
             Assert.Equal("wrongAnswer", dictionary[3]);
         }
+
+        [Fact]
+        public void TestClear()
+        {
+            var dictionary = new ManualDictionary<int, string>();
+            dictionary.Add(1, "a");
+            dictionary.Add(2, "b");
+            dictionary.Add(10, "c");
+            dictionary.Add(11, "c");
+            dictionary.Add(12, "c");
+            dictionary.Clear();
+            Assert.Empty(dictionary);
+        }
+
+        [Fact]
+        public void ContainsKeyShouldReturnTrueIfKeyIsInDictionary()
+        {
+            var dictionary = new ManualDictionary<int, string>();
+            dictionary.Add(1, "a");
+            dictionary.Add(2, "b");
+            dictionary.Add(10, "c");
+            dictionary.Add(11, "c");
+            dictionary.Add(12, "c");
+            Assert.True(dictionary.ContainsKey(2));
+        }
+
+        [Fact]
+        public void ContainsKeyShouldReturnFalseIfKeyIsNotInDictionary()
+        {
+            var dictionary = new ManualDictionary<int, string>();
+            dictionary.Add(1, "a");
+            dictionary.Add(2, "b");
+            dictionary.Add(10, "c");
+            dictionary.Add(11, "c");
+            dictionary.Add(12, "c");
+            dictionary.Clear();
+            Assert.False(dictionary.ContainsKey(2));
+        }
+
+        [Fact]
+        public void IfKeyIsNullContainsKeyShouldThrowAmError()
+        {
+            var dictionary = new ManualDictionary<string, string>();
+            dictionary.Add("1", "a");
+            dictionary.Add("2", "b");
+
+            Assert.Throws<ArgumentNullException>(() => dictionary.ContainsKey(null));
+        }
     }
 }
