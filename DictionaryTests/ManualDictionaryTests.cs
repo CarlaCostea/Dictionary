@@ -282,5 +282,22 @@ namespace DictionaryTests
 
             Assert.Throws<ArgumentNullException>(() => dictionary.TryGetValue(null, out string value));
         }
+
+        [Fact]
+        public void CopyToArrayWithAvailableSpace()
+        {
+            var dictionary = new ManualDictionary<int, string>();
+            dictionary.Add(1, "a");
+            dictionary.Add(2, "b");
+            dictionary.Add(10, "c");
+            dictionary.Add(11, "c");
+            dictionary.Add(12, "c");
+
+            KeyValuePair<int, string>[] array = new KeyValuePair<int, string>[dictionary.Count];
+            dictionary.CopyTo(array, 0);
+
+            Assert.Equal(new KeyValuePair<int, string>(2, "b"), array[1]);
+            Assert.Equal(new KeyValuePair<int, string>(12, "c"), array[4]);
+        }
     }
 }

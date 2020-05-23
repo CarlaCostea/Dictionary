@@ -139,7 +139,27 @@ namespace Dictionary
 
         public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
         {
-            throw new NotImplementedException();
+            if (array == null)
+            {
+                throw new ArgumentNullException(nameof(array), "Array is null");
+            }
+
+            if (arrayIndex < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(arrayIndex), "Array index can't be smaller than zero");
+            }
+
+            if (array.Length - arrayIndex < Count)
+            {
+                throw new ArgumentException("The number of elements in dictionary is greater than the available space from arrayIndex to the end of the destination array ");
+            }
+
+            var enumerator = GetEnumerator();
+            for (int i = arrayIndex; i < Count + arrayIndex; i++)
+            {
+                enumerator.MoveNext();
+                array[i] = enumerator.Current;
+            }
         }
 
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
