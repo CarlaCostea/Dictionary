@@ -291,13 +291,39 @@ namespace DictionaryTests
             dictionary.Add(2, "b");
             dictionary.Add(10, "c");
             dictionary.Add(11, "c");
-            dictionary.Add(12, "c");
+            dictionary.Add(12, "b");
 
             KeyValuePair<int, string>[] array = new KeyValuePair<int, string>[dictionary.Count];
             dictionary.CopyTo(array, 0);
 
-            Assert.Equal(new KeyValuePair<int, string>(2, "b"), array[1]);
-            Assert.Equal(new KeyValuePair<int, string>(12, "c"), array[4]);
+            Assert.Equal(new KeyValuePair<int, string>(11, "c"), array[1]);
+            Assert.Equal(new KeyValuePair<int, string>(2, "b"), array[4]);
+        }
+
+        [Fact]
+        public void TryingtoCopyToArrayWhenCountOfDictionaryIsGreaterThanTheAvailableSpaceFromIndexToArrayLengthShouldThrowAnError()
+        {
+            var dictionary = new ManualDictionary<int, string>();
+            dictionary.Add(1, "a");
+            dictionary.Add(2, "b");
+            dictionary.Add(10, "c");
+            dictionary.Add(11, "c");
+
+            KeyValuePair<int, string>[] array = new KeyValuePair<int, string>[dictionary.Count];
+
+            Assert.Throws<ArgumentException>(() => dictionary.CopyTo(array, 1));
+        }
+
+        [Fact]
+        public void TryingtoCopyDictionaryToAnEmptyArrayShouldThrowAnError()
+        {
+            var dictionary = new ManualDictionary<int, string>();
+            dictionary.Add(1, "a");
+            dictionary.Add(2, "b");
+            dictionary.Add(10, "c");
+            dictionary.Add(11, "c");
+
+            Assert.Throws<ArgumentNullException>(() => dictionary.CopyTo(null, 1));
         }
     }
 }
