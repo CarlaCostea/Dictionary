@@ -207,5 +207,80 @@ namespace DictionaryTests
 
             Assert.Throws<ArgumentNullException>(() => dictionary.ContainsKey(null));
         }
+
+        [Fact]
+        public void ContainsKeyValuePairShouldReturnTrueIfKeyValuePairIsInDictionary()
+        {
+            var dictionary = new ManualDictionary<int, string>();
+            dictionary.Add(1, "a");
+            dictionary.Add(2, "b");
+            dictionary.Add(10, "c");
+            dictionary.Add(11, "c");
+            dictionary.Add(12, "c");
+            Assert.True(dictionary.Contains(new KeyValuePair<int, string>(1, "a")));
+            Assert.True(dictionary.Contains(new KeyValuePair<int, string>(10, "c")));
+        }
+
+        [Fact]
+        public void ContainsKeyValuePairShouldReturnFalseIfKeyValuePairIsNotInDictionary()
+        {
+            var dictionary = new ManualDictionary<int, string>();
+            dictionary.Add(1, "a");
+            dictionary.Add(2, "b");
+            dictionary.Add(10, "c");
+            dictionary.Add(11, "c");
+            dictionary.Add(12, "c");
+            dictionary.Clear();
+            Assert.False(dictionary.Contains(new KeyValuePair<int, string>(3, "d")));
+            Assert.False(dictionary.Contains(new KeyValuePair<int, string>(4, "f")));
+        }
+
+        [Fact]
+        public void ContainsKeyValuePairShouldReturnFalseIfKeyIsInDictionaryButValueIsDifferent()
+        {
+            var dictionary = new ManualDictionary<int, string>();
+            dictionary.Add(1, "a");
+            dictionary.Add(2, "b");
+            dictionary.Add(10, "c");
+            dictionary.Add(11, "c");
+            dictionary.Add(12, "c");
+            dictionary.Clear();
+            Assert.False(dictionary.Contains(new KeyValuePair<int, string>(2, "d")));
+            Assert.False(dictionary.Contains(new KeyValuePair<int, string>(1, "f")));
+        }
+
+        [Fact]
+        public void TryGetValueShouldReturnTrueIfKeyIsInDictionary()
+        {
+            var dictionary = new ManualDictionary<int, string>();
+            dictionary.Add(1, "a");
+            dictionary.Add(2, "b");
+            dictionary.Add(10, "c");
+            dictionary.Add(11, "c");
+            dictionary.Add(12, "c");
+            Assert.True(dictionary.TryGetValue(2, out string value));
+        }
+
+        [Fact]
+        public void TryGetValueShouldReturnFalseIfKeyIsNotInDictionary()
+        {
+            var dictionary = new ManualDictionary<int, string>();
+            dictionary.Add(1, "a");
+            dictionary.Add(2, "b");
+            dictionary.Add(10, "c");
+            dictionary.Add(11, "c");
+            dictionary.Add(12, "c");
+            Assert.False(dictionary.TryGetValue(3, out string value));
+        }
+
+        [Fact]
+        public void TryGetValueShouldThrowErrorIfKeyIsNull()
+        {
+            var dictionary = new ManualDictionary<string, string>();
+            dictionary.Add("1", "a");
+            dictionary.Add("2", "b");
+
+            Assert.Throws<ArgumentNullException>(() => dictionary.TryGetValue(null, out string value));
+        }
     }
 }

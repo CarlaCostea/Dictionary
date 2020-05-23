@@ -129,6 +129,11 @@ namespace Dictionary
 
         public bool ContainsKey(TKey key)
         {
+            if (key == null)
+            {
+                throw new ArgumentNullException(nameof(key), "Key is null");
+            }
+
             return GetElementPosition(key) != -1;
         }
 
@@ -160,7 +165,19 @@ namespace Dictionary
 
         public bool TryGetValue(TKey key, [MaybeNullWhen(false)] out TValue value)
         {
-            throw new NotImplementedException();
+            if (key == null)
+            {
+                throw new ArgumentNullException(nameof(key), "key is null");
+            }
+
+            if (GetElementPosition(key) != -1)
+            {
+                value = elements[GetElementPosition(key)].Value;
+                return true;
+            }
+
+            value = default;
+            return false;
         }
 
         IEnumerator IEnumerable.GetEnumerator()
