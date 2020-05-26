@@ -339,5 +339,50 @@ namespace DictionaryTests
             Assert.True(dictionary.Remove(2));
             Assert.False(dictionary.ContainsKey(2));
         }
+
+        [Fact]
+        public void RemoveKeyShouldReturnTrueIfKeysInConflictAreDeletedFromDictionary()
+        {
+            var dictionary = new ManualDictionary<int, string>();
+            dictionary.Add(1, "a");
+            dictionary.Add(2, "b");
+            dictionary.Add(10, "c");
+            dictionary.Add(11, "c");
+            dictionary.Add(12, "c");
+            Assert.True(dictionary.ContainsKey(2));
+            Assert.True(dictionary.ContainsKey(12));
+            Assert.True(dictionary.Remove(2));
+            Assert.False(dictionary.ContainsKey(2));
+            Assert.True(dictionary.Remove(12));
+            Assert.False(dictionary.ContainsKey(12));
+        }
+
+        [Fact]
+        public void RemoveKeyShouldReturnFalseIfKeyIsNotInDictionary()
+        {
+            var dictionary = new ManualDictionary<int, string>();
+            dictionary.Add(1, "a");
+            dictionary.Add(2, "b");
+            dictionary.Add(10, "c");
+            dictionary.Add(11, "c");
+            dictionary.Add(12, "c");
+            Assert.True(dictionary.ContainsKey(2));
+            Assert.False(dictionary.Remove(3));
+            Assert.False(dictionary.Remove(13));
+            Assert.False(dictionary.Remove(33));
+        }
+
+        [Fact]
+        public void RemoveKeyShoulThrowAnErrorIfKeyIsNull()
+        {
+            var dictionary = new ManualDictionary<string, string>()
+            {
+                { "first", "element" },
+                { "second", "element" },
+            };
+
+            Assert.False(dictionary.Remove("third"));
+            Assert.Throws<ArgumentNullException>(() => dictionary.Remove(null));
+        }
     }
 }

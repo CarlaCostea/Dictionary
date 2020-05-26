@@ -204,7 +204,12 @@ namespace Dictionary
 
         public bool Remove(KeyValuePair<TKey, TValue> item)
         {
-            throw new NotImplementedException();
+            if (FindElement(item.Key, item.Value) == -1)
+            {
+                return false;
+            }
+
+            return Remove(item.Key);
         }
 
         public bool TryGetValue(TKey key, [MaybeNullWhen(false)] out TValue value)
