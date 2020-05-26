@@ -325,5 +325,19 @@ namespace DictionaryTests
 
             Assert.Throws<ArgumentNullException>(() => dictionary.CopyTo(null, 1));
         }
+
+        [Fact]
+        public void RemoveKeyShouldReturnTrueIfKeyIsDeletedFromDictionary()
+        {
+            var dictionary = new ManualDictionary<int, string>();
+            dictionary.Add(1, "a");
+            dictionary.Add(2, "b");
+            dictionary.Add(10, "c");
+            dictionary.Add(11, "c");
+            dictionary.Add(12, "c");
+            Assert.True(dictionary.ContainsKey(2));
+            Assert.True(dictionary.Remove(2));
+            Assert.False(dictionary.ContainsKey(2));
+        }
     }
 }

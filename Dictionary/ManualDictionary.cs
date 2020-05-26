@@ -175,7 +175,31 @@ namespace Dictionary
 
         public bool Remove(TKey key)
         {
-            throw new NotImplementedException();
+            if (key == null)
+            {
+                throw new ArgumentNullException(nameof(key), "key is null");
+            }
+
+            int current = GetElementPosition(key);
+
+            if (GetElementPosition(key) == -1)
+            {
+                return false;
+            }
+
+            if (GetPreviousPosition(key) == -1)
+            {
+                buckets[GetHash(key)] = elements[current].Next;
+            }
+            else
+            {
+                elements[GetPreviousPosition(key)].Next = elements[current].Next;
+            }
+
+            Count--;
+            elements[current].Next = freeIndex;
+            freeIndex = current;
+            return true;
         }
 
         public bool Remove(KeyValuePair<TKey, TValue> item)
@@ -249,6 +273,19 @@ namespace Dictionary
         private int GetHash(TKey key)
         {
             return Math.Abs(key.GetHashCode()) % buckets.Length;
+        }
+
+        private int GetPreviousPosition(TKey key)
+        {
+            int i = buckets[GetHash(key)];
+            int previous = -1;
+            while (!elements[i].Key.Equals(key))
+            {
+                previous = i;
+                i = elements[i].Next;
+            }
+
+            return previous;
         }
     }
 }
