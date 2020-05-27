@@ -384,5 +384,78 @@ namespace DictionaryTests
             Assert.False(dictionary.Remove("third"));
             Assert.Throws<ArgumentNullException>(() => dictionary.Remove(null));
         }
+
+        [Fact]
+        public void RemoveKeyValuePairShoulReturnTrueIfPairIsInDictionary()
+        {
+            var dictionary = new ManualDictionary<string, string>()
+            {
+                { "first", "element" },
+                { "second", "element" },
+            };
+
+            var firstPair = new KeyValuePair<string, string>("first", "element");
+            var secondPair = new KeyValuePair<string, string>("second", "element");
+            Assert.True(dictionary.Remove(firstPair));
+            Assert.True(dictionary.Remove(secondPair));
+            Assert.Empty(dictionary);
+        }
+
+        [Fact]
+        public void RemoveKeyValuePairShoulReturnFalseIfKeyIsInDictionaryWithDifferentValue()
+        {
+            var dictionary = new ManualDictionary<string, string>()
+            {
+                { "first", "element" },
+                { "second", "elements" },
+            };
+
+            var firstPair = new KeyValuePair<string, string>("first", "element");
+            var secondPair = new KeyValuePair<string, string>("second", "element");
+            Assert.True(dictionary.Remove(firstPair));
+            Assert.False(dictionary.Remove(secondPair));
+            Assert.NotEmpty(dictionary);
+        }
+
+        [Fact]
+        public void TestAddingElementAfterRemoveKeyValuePairAtFreeIndex()
+        {
+            var dictionary = new ManualDictionary<int, string>();
+            dictionary.Add(1, "a");
+            dictionary.Add(2, "b");
+            dictionary.Add(10, "c");
+            dictionary.Add(11, "c");
+            dictionary.Add(12, "c");
+            Assert.True(dictionary.ContainsKey(10));
+            Assert.True(dictionary.Remove(10));
+            Assert.False(dictionary.Remove(13));
+            Assert.False(dictionary.Remove(33));
+            dictionary.Add(3, "b");
+
+            var enumerator = dictionary.GetEnumerator();
+
+            Assert.True(enumerator.MoveNext());
+            Assert.Equal(11, enumerator.Current.Key);
+            Assert.Equal("c", enumerator.Current.Value);
+
+            Assert.True(enumerator.MoveNext());
+            Assert.Equal(1, enumerator.Current.Key);
+            Assert.Equal("a", enumerator.Current.Value);
+
+            Assert.True(enumerator.MoveNext());
+            Assert.Equal(12, enumerator.Current.Key);
+            Assert.Equal("c", enumerator.Current.Value);
+
+            Assert.True(enumerator.MoveNext());
+            Assert.Equal(2, enumerator.Current.Key);
+            Assert.Equal("b", enumerator.Current.Value);
+
+            Assert.True(enumerator.MoveNext());
+            Assert.Equal(3, enumerator.Current.Key);
+            Assert.Equal("b", enumerator.Current.Value);
+
+            Assert.False(enumerator.MoveNext());
+            Assert.Equal(new[] { 11, 1, 12, 2, 3 }, dictionary.Keys);
+        }
     }
 }
