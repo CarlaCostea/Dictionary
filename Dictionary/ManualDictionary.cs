@@ -117,6 +117,7 @@ namespace Dictionary
         {
             Array.Fill(buckets, -1);
             Count = 0;
+            freeIndex = -1;
         }
 
         public bool Contains(KeyValuePair<TKey, TValue> item)
@@ -179,18 +180,20 @@ namespace Dictionary
 
             int current = GetElementPosition(key);
 
-            if (GetElementPosition(key) == -1)
+            if (current == -1)
             {
                 return false;
             }
 
-            if (GetPreviousPosition(key) == -1)
+            int previous = GetPreviousPosition(key);
+
+            if (previous == -1)
             {
                 buckets[GetHash(key)] = elements[current].Next;
             }
             else
             {
-                elements[GetPreviousPosition(key)].Next = elements[current].Next;
+                elements[previous].Next = elements[current].Next;
             }
 
             Count--;
