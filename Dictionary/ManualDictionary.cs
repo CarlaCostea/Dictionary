@@ -72,15 +72,14 @@ namespace Dictionary
             }
 
            set
-            {
-                int current = GetElementPosition(key);
-                if (current == -1)
                 {
-                    Count++;
-                    Add(key, value);
+                int current = GetElementPosition(key);
+                if (current != -1)
+                {
+                    return;
                 }
 
-                elements[GetHash(key)] = new Element<TKey, TValue>(key, value, -1);
+                Add(key, value);
             }
         }
 
