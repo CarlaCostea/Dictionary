@@ -77,9 +77,10 @@ namespace Dictionary
                 if (current == -1)
                 {
                     Count++;
+                    Add(key, value);
                 }
 
-                elements[current] = new Element<TKey, TValue>(key, value, -1);
+                elements[GetHash(key)] = new Element<TKey, TValue>(key, value, -1);
             }
         }
 
