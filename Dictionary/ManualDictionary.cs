@@ -76,6 +76,7 @@ namespace Dictionary
                 int current = GetElementPosition(key);
                 if (current != -1)
                 {
+                    elements[current].Value = value;
                     return;
                 }
 
