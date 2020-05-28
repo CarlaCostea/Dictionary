@@ -57,27 +57,29 @@ namespace Dictionary
         {
            get
             {
-                if (GetElementPosition(key) == -1)
-                {
-                    throw new KeyNotFoundException("Key {key} is not in Dictionary");
-                }
-
+                int current = GetElementPosition(key);
                 if (key == null)
                 {
                     throw new ArgumentNullException(nameof(key), "Key is null");
                 }
 
-                return elements[GetElementPosition(key)].Value;
+                if (current == -1)
+                {
+                    throw new KeyNotFoundException("Key {key} is not in Dictionary");
+                }
+
+                return elements[current].Value;
             }
 
            set
             {
-                if (GetElementPosition(key) == -1)
+                int current = GetElementPosition(key);
+                if (current == -1)
                 {
                     Count++;
                 }
 
-                elements[GetElementPosition(key)].Value = value;
+                elements[current] = new Element<TKey, TValue>(key, value, -1);
             }
         }
 
@@ -100,12 +102,7 @@ namespace Dictionary
 
             int elementIndex = GetFreeIndex();
             int bucketIndex = GetHash(key);
-            elements[elementIndex] = new Element<TKey, TValue>(key, value, -1);
-
-            if (buckets[bucketIndex] != -1)
-            {
-                elements[elementIndex].Next = buckets[bucketIndex];
-            }
+            elements[elementIndex] = new Element<TKey, TValue>(key, value, buckets[bucketIndex]);
 
             buckets[bucketIndex] = elementIndex;
             Count++;
